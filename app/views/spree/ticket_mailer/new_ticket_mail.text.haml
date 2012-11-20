@@ -1,0 +1,25 @@
+:plain
+  Dear #{user_display_name(@user)},
+
+  Your ticket has been received. Someone from our support team will review your enquiry and reply accordingly. 
+
+  Listed below are details of this ticket. 
+
+  Ticket ID: ##{@ticket.number}
+  Subject: #{@ticket.subject}
+  Question Type: #{@ticket.ticket_category.name}
+  Status: #{@ticket.ticket_state.name}
+
+  You can check the status of this ticket online at: 
+  #{@ticket_url} 
+
+
+  Please note this is a post-only mailing. Replies to this message are not monitored or answered. 
+  
+  Regards,
+  #{render "spree/common/email_salutation"}
+
+  P.S. To add to contacts: Gmail, just hit reply. Yahoo, click "Add Contact". Windows Live Hotmail, click "Mark as safe", then click "Add contact".
+
+
+  #{render :partial => "spree/common/email_footer", :locals => {:name => @user.email}}

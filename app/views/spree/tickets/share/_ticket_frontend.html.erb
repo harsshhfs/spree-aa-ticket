@@ -1,0 +1,66 @@
+<%= javascript_tag do -%>
+  (function($){
+    $(document).ready(function(){
+      if($('#edit_ticket').is('*')){
+        $('#edit_ticket').validate({
+          highlight: function(element, errorClass) {
+               $(element).parents(".control-group").addClass("error")
+          },          
+          errorClass: "help-inline"
+        });
+      }
+    });
+  })(jQuery);
+<% end -%>
+
+
+<div class="ticket-detail">
+  <% if flash[:error] %>
+    <div class="alert alert-error"><%= flash[:error] %></div>
+  <% end %>
+  <% if notice %>
+    <div class="alert alert-success"><%= notice %></div>
+  <% end %>
+  <%= render :partial => 'spree/shared/error_messages', :locals => { :target => @ticket } %>
+  
+  Ticket #<%=@ticket.number%>
+  <br/><br/>
+  Subject: <%=@ticket.subject%>
+  <br/><br/>
+  Status: <%=@ticket.ticket_state.name%>
+  <br/><br/>
+  
+  
+  
+  <% @ticket.ticket_messages.each do |message| %>
+    <% if message.is_visible_to_customer%>
+      <%= render :partial => "spree/tickets/share/ticket_message_body", :locals => { :message => message, :backend => false } %>
+    <% end %>
+  <% end %>
+  
+  <%if @ticket.ticket_state.name != TicketState::CLOSED%>
+    
+    <div class="message_form">
+    <%= simple_form_for [:support,@ticket], :html => { :multipart => true, :id=> "edit_ticket"} do |f| %>
+    <fieldset data-hook="new_<%=@object.class.name%>">
+      <br />
+      <%= render :partial => "spree/tickets/share/message_form", :locals => { :f => f } %>
+      <div>
+        <div class="form-actions" data-hook="buttons">
+          <%= button_tag :class => 'btn btn-success btn-large' do t(:update) end %>
+        </div>
+        <div class="closed-button">
+          <%= link_to "Close", closed_support_ticket_path(@ticket.number), :class => 'btn btn-success btn-large' %>
+        </div>
+      </div>
+        
+    </fieldset> 
+ 
+    <% end %>
+    </div>
+    </p>        
+  
+    
+  <%end%>
+  
+</div>

@@ -1,0 +1,28 @@
+:plain
+  Dear #{user_display_name(@user)},
+ 
+  The following support ticket(##{@ticket.number}) has been updated: 
+
+  Subject: #{@ticket.subject}
+  --------------------------------------------------- 
+  
+  #{@message.message_text}
+  
+  Kind Regards, 
+  #{@message.user_full_name(@message.user)}
+  Better Be Quick Customer Service  
+  --------------------------------------------------- 
+
+  You can check the status of this ticket online at: 
+  #{@ticket_url} 
+
+
+  Please note this is a post-only mailing. Replies to this message are not monitored or answered. 
+  
+  Regards,
+  #{render "spree/common/email_salutation"}
+
+  P.S. To add to contacts: Gmail, just hit reply. Yahoo, click "Add Contact". Windows Live Hotmail, click "Mark as safe", then click "Add contact".
+
+
+  #{render :partial => "spree/common/email_footer", :locals => {:name => @user.email}}

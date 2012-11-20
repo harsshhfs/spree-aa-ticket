@@ -1,0 +1,7 @@
+<%= render :partial => 'tabs' %>
+
+<br/>
+<%=tickets_sum(@tickets.size, @type)%>
+<br/>
+<br/>
+<%= render :partial => 'spree/tickets/share/tickets_table' %>

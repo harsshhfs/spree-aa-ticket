@@ -1,0 +1,11 @@
+<table class="tickets-table table table-hover table-striped">
+  <% @tickets.each do |ticket| %>
+    <tr>
+      <td width="20%"><%=link_to "#" + ticket.number, support_ticket_path(ticket.number)%></td>
+      <td width="80%"><b><%=ticket.subject%></b><br/>
+          Status: <%=ticket.ticket_state.name%><br/>
+          Last Modified: <%=ticket.updated_at%>
+      </td>
+    </tr>
+  <% end %>
+</table>

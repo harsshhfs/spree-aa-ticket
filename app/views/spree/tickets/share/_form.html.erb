@@ -1,0 +1,75 @@
+<%= javascript_tag do -%>
+  (function($){
+    $(document).ready(function(){
+      $("#ticket_category_id").bind("change", function() {
+        $(".ticket_faq").addClass("hidden")
+        $("#category" + $(this).attr('value')).removeClass("hidden").show("slow");
+      });    
+      if($('#new_ticket').is('*')){
+        $('#new_ticket').validate({
+          highlight: function(element, errorClass) {
+               $(element).parents(".control-group").addClass("error")
+          },          
+          errorClass: "help-inline"
+        });
+      }
+    });
+  })(jQuery);
+  
+  function toggleAnswer(i) {
+    $('#faq-answer' + i).toggle('slow');
+    return false;
+  }
+<% end -%>
+
+
+
+<div class="inner">
+
+      <p class="control-group string required">
+        <%= f.label :category_id, raw('<abbr title="required">*</abbr> ') + t(:category), :class => "string required control-label" %>
+        <span class="controls">
+          <%= f.collection_select :category_id, TicketCategory.all, :id, :name, {:selected=>TicketCategory.first.id}, {:class => 'required string valid wide-field'} %>
+        </span>
+      </p>
+      
+      <p>            
+        <% TicketCategory.all.each do |category| -%>          
+          <div class="ticket_faq <%=hind_faq(category, TicketCategory.first.id)%>" id="category<%=category.id%>">
+              <% if category.ticket_faqs.size > 0 %>
+                <div class="faq_summery">Here are some popular '<%=category.name%>' Questions:</div>
+                <ul class="nav nav-pills nav-stacked">
+                  <%category.ticket_faqs.each do |faq|%>
+                    <li>
+                      <a href="#" onclick="toggleAnswer(<%=faq.id%>);return false">&bull;&nbsp;<span><%=faq.question.html_safe%></span></a>
+                      <div class="ticket_answer hidden" id="faq-answer<%=faq.id%>"><%=faq.answer.html_safe%></div>
+                    </li>
+                  <%end%>
+                </ul>
+              <% end %>
+              <div class="ticket_hint"><%=category.hint_text%></div>
+          </div>          
+        <% end -%>
+      </p>
+  
+      <p class="control-group string required">
+        <%= f.label :subject, raw('<abbr title="required">*</abbr> ') + t(:subject), :class => "string required control-label" %>
+        <span  class="controls">
+          <%= f.text_field :subject, :class => 'required string valid wide-field' %>
+        </span>
+      </p>
+      
+      <%= f.fields_for :ticket_messages do |messages_form| %>
+        <p class="control-group string required">
+          <%= messages_form.input :message_text,  :as => :text, :input_html => { :cols => "", :rows => 6, :class => "required string valid" } %>
+        </p>
+      
+      <% end %>  
+  
+</div>
+
+  <div class="form-actions" data-hook="buttons">
+    <%= button_tag :class => 'btn btn-success btn-large' do t(:create) end %>
+  </div>
+
+  <br/>

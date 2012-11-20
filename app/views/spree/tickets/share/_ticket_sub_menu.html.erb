@@ -1,0 +1,10 @@
+<% content_for :sub_menu do %>
+  <ul id="sub_nav">
+    <%= tab :my_open_tickets, :url => myopen_admin_tickets_path, :match_path => '/tickets/myopen' %>
+    <%= tab :my_closed_tickets, :url => myclose_admin_tickets_path, :match_path => '/tickets/myclose' %>
+    <%= tab :my_all_tickets, :url => myall_admin_tickets_path, :match_path => '/tickets/myall' %>
+    <%= tab :unassigned_tickets, :url => unassigned_admin_tickets_path, :match_path => '/tickets/unassigned' %>
+    <%= tab :all_tickets, :url => all_admin_tickets_path, :match_path => '/tickets/all' %>
+    <%= tab :create_a_ticket, :url => new_admin_ticket_path, :match_path => '/tickets/new' %>
+  </ul>
+<% end %>

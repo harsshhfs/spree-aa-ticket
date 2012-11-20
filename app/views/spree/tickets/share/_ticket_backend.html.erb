@@ -1,0 +1,70 @@
+
+
+
+<div class="ticket-detail">
+  <%= render :partial => 'spree/shared/error_messages', :locals => { :target => @ticket } %>
+  
+  Ticket #<%=@ticket.number%>
+  <br/><br/>
+  Customer: <b><%=@ticket.user.email%></b>
+  <br/><br/>
+  Assigned to: <b><%=@ticket.admin_user.email if !@ticket.admin_user.nil?%></b>
+  <br/><br/>  
+  Category: <%=@ticket.ticket_category.name%>
+  <br/><br/>  
+  Subject: <%=@ticket.subject%>
+  <br/><br/>
+  Status: <%=@ticket.ticket_state.name%>
+  <br/><br/>
+  Closed by: <%=@ticket.closed_by_user.email if @ticket.closed_by_user%>
+  <br/><br/>
+  Closed at: <%=@ticket.closed_at%>
+  <br/><br/>
+  
+  
+  
+  <% @ticket.ticket_messages.each do |message| %>
+    <% if message.is_visible_to_customer || @backend%>
+      <%= render :partial => "spree/tickets/share/ticket_message_body", :locals => { :message => message, :backend => true } %>
+    <% end %>
+  <% end %>
+  
+    
+    <div class="message_form">
+    <%= simple_form_for [:admin,@ticket], :html => { :multipart => true, :id=> "edit_ticket"} do |f| %>
+    <fieldset data-hook="new_<%=@object.class.name%>">
+      <br />
+      <%= render :partial => "spree/tickets/share/message_form", :locals => { :f => f } %>
+
+<br /><br /><br />
+       <p>if you want to make a note please transfer to self</p>
+      <p class="control-group string">
+        <%= f.label :admin_user_id, t(:send_to), :class => "text optional control-label" %>
+        <span class="controls">
+          <%= f.collection_select :admin_user_id, @admin_users, :id, :email,  {} %>
+        </span>
+      </p>
+
+      <p class="control-group string">
+        <%= f.label :state_id, t(:state), :class => "text optional control-label" %>
+        <span class="controls">
+          <%= f.collection_select :state_id, TicketState.all, :id, :name, {} %>
+        </span>
+      </p>
+
+      
+      <div>
+        <div class="form-actions" data-hook="buttons">
+          <p><%= button "Update" %></p>
+        </div>
+      </div>
+        
+    </fieldset> 
+ 
+    </div>
+    </p>        
+  
+    
+  <%end%>
+  
+</div>

@@ -1,0 +1,6 @@
+      <%= f.fields_for @message do |messages_form| %>
+        <p class="control-group string required">
+          <%= messages_form.input :message_text,  :label => "Comments:", :as => :text, :input_html => { :cols => "", :rows => 6, :class => "required string valid" } %>
+        </p>
+      
+      <% end %>  

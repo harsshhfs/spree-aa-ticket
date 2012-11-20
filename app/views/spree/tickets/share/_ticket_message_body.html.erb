@@ -1,0 +1,19 @@
+
+
+<div class="ticket-message-body <%=message_color(message.user, message.is_internal_transfer)%>">
+  <%if message.is_internal_transfer%>
+    <div><p><i>Internally transfered to <%=message.transfered_to_user.email if !message.transfered_to_user.nil?%></i></p></div>
+  <%end%>    
+  <% if backend %>
+    <div><p><i>State: <%=message.ticket_state.name%></i></p></div>
+  <% end %>
+  <div class="title_wrap">
+     <div class="title_wrap_left"><b><%=message_title(message.user)%></b></div>
+      <div class="title_wrap_right"><%=message.updated_at%></div>
+  </div>
+  <div class="clear" ></div><br/>
+  <div><p><%=message.message_text%><%=message.admin_signiture%></p></div>
+  <%if message.is_visible_to_customer && backend %>
+    <div class="customer-visible-icon"><%=image_tag("visible_to_customer.gif")%></div>
+  <%end%>
+</div>

@@ -1,0 +1,20 @@
+<%= render :partial => 'tabs' %>
+<br/>
+<h1>New Ticket</h1>
+<!-- <div class="line-light"></div> -->
+<p>
+<% if flash[:error] %>
+  <div class="alert alert-error"><%= flash[:error] %></div>
+<% end %>
+<% if notice %>
+  <div class="alert alert-success"><%= notice %></div>
+<% end %>          
+<%= render :partial => 'spree/shared/error_messages', :locals => { :target => @object } %>
+<div class="ticket_form">
+<%= simple_form_for [:support,@object], :html => { :multipart => true, :class=>"form-horizontal" } do |f| %>
+<fieldset data-hook="new_<%=@object.class.name%>">
+  <%= render :partial => "spree/tickets/share/form", :locals => { :f => f } %>  
+</fieldset>  
+<% end %>
+</div>
+</p>        

@@ -1,0 +1,11 @@
+<div class="static-content">   
+<ul id="tab" class = "nav nav-pills">
+    <li <%=current_page("New Ticket")%>><%= link_to "New Ticket", new_support_ticket_path %></li>
+      
+      <li <%=current_page("View Open")%>><%=link_to "View Open", open_support_tickets_path %></li>
+    
+      <li <%=current_page("View Closed")%>><%=link_to "View Closed", close_support_tickets_path %></li>
+    
+      <li <%=current_page("View All")%>><%=link_to "View All",  all_support_tickets_path %></li>
+</ul>
+</div>

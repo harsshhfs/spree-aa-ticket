@@ -1,0 +1,40 @@
+
+
+<div class="inner">
+
+      <p class="control-group string">
+        <%= f.label :category_id, t(:category) %><br/>
+        <span class="controls">
+          <%= f.collection_select :category_id, TicketCategory.all, :id, :name, {:selected=>TicketCategory.first.id} %>
+        </span>
+      </p>
+      
+      <p class="control-group string">
+        <%= f.label :admin_user_id, t(:assign_to) %><br/>
+        <span class="controls">
+          <%= f.collection_select :admin_user_id, @admin_users, :id, :email, {} %>
+        </span>
+      </p>
+  
+      <p class="control-group string">
+        <%= f.label :subject, t(:subject) %><br/>
+        <span  class="controls">
+          <%= f.text_field :subject %>
+        </span>
+      </p>
+
+      
+      <%= f.fields_for :ticket_messages do |messages_form| %>
+        <p class="control-group string">
+          <%= messages_form.input :message_text,  :as => :text, :input_html => { :cols => "", :rows => 6, :class => "string valid" } %>
+        </p>
+      
+      <% end %>  
+  
+</div>
+
+  <div class="form-actions" data-hook="buttons">
+    <p><%= button "Create" %></p>
+  </div>
+
+  <br/>

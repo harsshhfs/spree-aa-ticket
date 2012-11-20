@@ -1,0 +1,31 @@
+<%= render :partial => 'spree/tickets/share/ticket_sub_menu' %>
+
+
+<br/>
+<br/>
+<br/>
+
+<table class="index">
+  <tr>    
+    <th>updated_at</th>    
+    <th>Ticket</th>
+    <th>Customer Email</th>
+    <th>Admin User Email</th>
+    <th>Status</th>
+    <th>created_at</th>          
+    <th>Subject</th>
+  </tr>
+
+<%@collections.each do |collect|%>
+  <tr>
+    <td><%=collect.updated_at%></td>  
+    <td><%=link_to collect.number, edit_admin_ticket_path(collect.number)%></td>
+    <td><%=collect.user.email if !collect.user.blank?%></td>
+    <td><%=collect.admin_user.email if !collect.admin_user.blank?%></td>
+    <td><%=collect.ticket_state.name%></td>
+    <td><%=collect.created_at%></td>
+    <td><%=collect.subject%></td>
+  </tr>
+<%end%>
+</table>
+<%= paginate @collections %>
