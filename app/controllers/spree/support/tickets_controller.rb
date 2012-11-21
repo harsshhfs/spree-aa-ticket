@@ -1,5 +1,5 @@
 module Spree
-  #module Support
+  module Support
     class TicketsController < Spree::ContentController
       respond_to :html
       before_filter :page_title
@@ -19,21 +19,21 @@ module Spree
         @current_page = "View Open"
         @tickets = Ticket.open_tickets_by_user(current_user)
         @type = "open"
-        render "spree/tickets/index"
+        render "index"
       end
       
       def close
         @current_page = "View Closed"
         @tickets = Ticket.closed_tickets_by_user(current_user)
         @type = "closed"        
-        render "spree/tickets/index"
+        render "index"
       end
       
       def all
         @current_page = "View All"
         @tickets = Ticket.all_tickets_by_user(current_user)
         @type = ""
-        render "spree/tickets/index"        
+        render "index"        
       end
       
       def show
@@ -107,5 +107,5 @@ module Spree
         end
 
     end
-  #end
+  end
 end

@@ -1,5 +1,5 @@
 module Spree
-  #module Support
+  module Support
     module TicketsHelper
       
       # def support_ticket_path(ticket)
@@ -54,5 +54,5 @@ module Spree
       end
       
     end
-  #end
+  end
 end
