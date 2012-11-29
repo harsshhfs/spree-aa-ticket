@@ -3,7 +3,27 @@ module Spree
     class TicketsController < Spree::Admin::BaseController
       respond_to :html      
       PER_PAGE = 20
+      before_filter :load_search_object, :except => [:edit, :new, :update, :create]
 
+      def load_search_object
+        params[:search] ||= {}
+        params[:search][:meta_sort] ||= 'updated_at.desc'
+        @search = Ticket.metasearch(params[:search])        
+      end
+      
+      def index
+       if !params[:search][:created_at_greater_than].blank?
+          params[:search][:created_at_greater_than] = Time.zone.parse(params[:search][:created_at_greater_than]).beginning_of_day rescue ""
+        end
+
+        if !params[:search][:created_at_less_than].blank?
+          params[:search][:created_at_less_than] = Time.zone.parse(params[:search][:created_at_less_than]).end_of_day rescue ""
+        end
+
+
+        @collections = Ticket.metasearch(params[:search]).includes([:user, :admin_user, :ticket_state]).page(params[:page]).per(Spree::Admin::TicketsController::PER_PAGE)
+        respond_with(@collections)        
+      end
       
       def all
         @collections = Ticket.includes(:user, :admin_user, :ticket_state).order("updated_at desc").page(params[:page]).per(Spree::Admin::TicketsController::PER_PAGE);
@@ -19,6 +39,12 @@ module Spree
         @collections = Ticket.includes(:user, :admin_user, :ticket_state).where("admin_user_id = ? and state_id != ?", current_user.id, TicketState.state_closed.id).order("updated_at desc").page(params[:page]).per(Spree::Admin::TicketsController::PER_PAGE);
         render "index"        
       end
+      
+      def mynew
+        @collections = Ticket.includes(:user, :admin_user, :ticket_state).where("admin_user_id = ? and state_id != ? and state_id != ? and state_id != ?", current_user.id, TicketState.state_closed.id, TicketState.state_require_customer_response.id, TicketState.state_resolved.id).order("updated_at desc").page(params[:page]).per(Spree::Admin::TicketsController::PER_PAGE);
+        render "index"        
+      end
+      
 
       def myclose
         @collections = Ticket.includes(:user, :admin_user, :ticket_state).where("admin_user_id = ? and state_id = ?", current_user.id, TicketState.state_closed.id).order("updated_at desc").page(params[:page]).per(Spree::Admin::TicketsController::PER_PAGE);

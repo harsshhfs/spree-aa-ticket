@@ -3,7 +3,8 @@ Spree::Core::Engine.routes.draw do
   # Add your extension routes here
   
    #match '/tickets/open' => 'Tickets#open'
-
+  match 'support/tickets/login' => 'Support::Tickets#login'
+  match 'support/tickets' => 'Support::Tickets#open'
    
   namespace :support do 
     resources :tickets do
@@ -23,6 +24,7 @@ Spree::Core::Engine.routes.draw do
     resources :tickets do
       collection do
         get 'myopen'
+        get 'mynew'
         get 'myclose'
         get 'myall'
         get 'unassigned'

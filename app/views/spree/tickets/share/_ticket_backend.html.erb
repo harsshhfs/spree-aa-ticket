@@ -8,6 +8,10 @@
   <br/><br/>
   Customer: <b><%=@ticket.user.email%></b>
   <br/><br/>
+  <%=link_to t(:view_all_customer_tickets), admin_tickets_path + "?search[user_email_like]=#{@ticket.user.email}"%>
+  <br/><br/>
+  <%=link_to t(:view_all_customer_orders), admin_orders_path + "?search[user_email_like]=#{@ticket.user.email}&search[completed_at_is_not_null]=1"%>  
+  <br/><br/>
   Assigned to: <b><%=@ticket.admin_user.email if !@ticket.admin_user.nil?%></b>
   <br/><br/>  
   Category: <%=@ticket.ticket_category.name%>

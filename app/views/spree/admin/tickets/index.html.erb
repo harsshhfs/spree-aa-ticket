@@ -29,3 +29,41 @@
 <%end%>
 </table>
 <%= paginate @collections %>
+
+<% content_for :sidebar do %>
+  <div class="box" data-hook="admin_tickets_index_search">
+    <h3><%= t(:search) %></h3>
+    <%= form_for [:admin, @search] do |f| %>
+      <%= label_tag nil, t(:date_range) %><br />
+      <div class="date-range-filter">
+        <div class="left sub-field">
+          <%= f.text_field :created_at_greater_than, :class => 'datepicker' %><br />
+          <%= label_tag nil, t(:start), :class => 'sub' %>
+        </div>
+        <div class="right sub-field">
+          <%= f.text_field :created_at_less_than, :class => 'datepicker' %><br />
+          <%= label_tag nil, t(:stop), :class => 'sub' %>
+        </div>
+      </div>
+
+
+      <p>
+        <%= label_tag nil, t(:ticket_number) %><br />
+        <%= f.text_field :number_like, :size => 25 %>
+      </p>
+      <p>
+        <%= label_tag nil, t(:email) %><br />
+        <%= f.text_field :user_email_like, :size => 25 %>
+      </p>
+      
+      <p>
+        <%= label_tag nil, t(:subject_begins_with) %><br />
+        <%= f.text_field :subject_starts_with, :size => 25 %>
+      </p>
+      
+      <div data-hook="admin_orders_index_search_buttons">
+        <p><%= button t(:search) %></p>
+      </div>
+    <% end %>
+  </div>
+<% end %>

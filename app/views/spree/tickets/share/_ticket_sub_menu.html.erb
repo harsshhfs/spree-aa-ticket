@@ -1,5 +1,6 @@
 <% content_for :sub_menu do %>
   <ul id="sub_nav">
+    <%= tab :my_new_tickets, :url => mynew_admin_tickets_path, :match_path => '/tickets/mynew' %>
     <%= tab :my_open_tickets, :url => myopen_admin_tickets_path, :match_path => '/tickets/myopen' %>
     <%= tab :my_closed_tickets, :url => myclose_admin_tickets_path, :match_path => '/tickets/myclose' %>
     <%= tab :my_all_tickets, :url => myall_admin_tickets_path, :match_path => '/tickets/myall' %>

@@ -3,10 +3,10 @@ module Spree
     class TicketsController < Spree::ContentController
       respond_to :html
       before_filter :page_title
-      before_filter :check_authorization, :except => [:check_login]
+      before_filter :check_authorization, :except => [:login]
 
       
-      def check_login
+      def login        
       end
       
       
@@ -50,7 +50,7 @@ module Spree
         if @ticket.save
           redirect_to :action => :open
         else
-          flash.error = "Sorry there is a problem. Please contact our support if problem continues."
+          flash.error = "Sorry there is a problem. Please contact our support@betterbequick.com.au if problem continues."
           respond_with(@ticket, :location => support_ticket_path(@ticket.number))
         end
       end
@@ -94,7 +94,7 @@ module Spree
           end
           redirect_to :action => :open
         else
-          flash[:error] = "An error occurred please contact the support"
+          flash[:error] = "Sorry there is a problem. Please contact our support@betterbequick.com.au if problem continues."
           redirect_to :action => :new
         end     
       end
@@ -103,7 +103,9 @@ module Spree
         def check_authorization
           return if current_user
           store_location
-          redirect_to spree.login_path and return          
+          #redirect_to spree.login_path and return
+          redirect_to :action => :login
+          return          
         end
 
     end
